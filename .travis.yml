@@ -15,7 +15,7 @@ script:
     docker pull $ORGANIZATION/payroll-server:latest
 
     look_exit=$?;
-    if [[ "$look_exit" = "1" ]
+    if [[ "$look_exit" = "1" ]]
       then echo -e "\e[31mDESCARGA DE IMAGEN DE DOCKERHUB FALLIDA"
       exit 1
     fi;
