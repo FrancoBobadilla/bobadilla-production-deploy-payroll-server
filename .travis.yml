@@ -1,0 +1,57 @@
+services:
+  - docker
+
+install:
+  - curl https://cli-assets.heroku.com/install.sh | sh
+
+script:
+
+
+  - > # DESCARGA DE IMAGEN DE DOCKERHUB
+
+    echo -e "\e[33mCOMENZANDO DESCARGA DE IMAGEN DE DOCKERHUB";
+
+    echo "$DOCKER_PASSWORD" | docker login -u $ORGANIZATION --password-stdin;
+    docker pull $ORGANIZATION/payroll-server:latest
+
+    look_exit=$?;
+    if [[ "$look_exit" = "1" ]
+      then echo -e "\e[31mDESCARGA DE IMAGEN DE DOCKERHUB FALLIDA"
+      exit 1
+    fi;
+    echo -e "\e[32mDESCARGA DE IMAGEN DE DOCKERHUB EXITOSA";
+ 
+
+
+  - > # DESPLIEGUE A HEROKU REGISTRY
+
+    echo -e "\e[33mCOMENZANDO DESPLIEGUE A HEROKU REGISTRY";
+
+    echo "$HEROKU_API_KEY" | docker login -u_ --password-stdin registry.heroku.com;
+    docker tag $ORGANIZATION/payroll-server:latest registry.heroku.com/$HEROKU_APP_PRODUCTION/web;
+    docker push registry.heroku.com/$HEROKU_APP_PRODUCTION/web;
+
+    look_exit=$?;
+    if [[ "$look_exit" = "1" ]]
+      then echo -e "\e[31mDESPLIEGUE A HEROKU REGISTRY FALLIDO"
+      exit 1
+    fi;
+    echo -e "\e[32mDESPLIEGUE A HEROKU REGISTRY EXITOSO";
+
+
+
+
+  - > # RELEASE DE HEROKU APP PRODUCTION
+
+    echo -e "\e[33mCOMENZANDO RELEASE DE HEROKU APP PRODUCTION";
+
+    heroku container:release web --app=$HEROKU_APP_PRODUCTION; 
+
+    look_exit=$?;
+    if [[ "$look_exit" = "1" ]]
+      then echo -e "\e[31mRELEASE DE HEROKU APP PRODUCTION FALLIDO"
+      exit 1
+    fi;
+    echo -e "\e[32mRELEASE DE HEROKU APP PRODUCTION EXITOSO";
+
+
