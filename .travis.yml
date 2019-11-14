@@ -35,6 +35,7 @@ script:
     stepFinish () {
       if [[ "$?" = "1" ]]
         then printStepFormat FALLIDO;
+        sleep 2;
         exit 1;
       fi;
       printStepFormat EXITOSO;
