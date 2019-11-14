@@ -9,7 +9,7 @@ script:
 
   - > # DESCARGA DE IMAGEN DE DOCKERHUB
 
-    echo -e "\e[33mCOMENZANDO DESCARGA DE IMAGEN DE DOCKERHUB";
+    echo -e "\e[33m\n\n\n\nCOMENZANDO DESCARGA\n\n DE IMAGEN DE DOCKERHUB";
 
     echo "$DOCKER_PASSWORD" | docker login -u $ORGANIZATION --password-stdin;
     docker pull $ORGANIZATION/payroll-server:latest
@@ -20,7 +20,8 @@ script:
       exit 1
     fi;
     echo -e "\e[32mDESCARGA DE IMAGEN DE DOCKERHUB EXITOSA";
- 
+
+
 
 
   - > # DESPLIEGUE A HEROKU REGISTRY
