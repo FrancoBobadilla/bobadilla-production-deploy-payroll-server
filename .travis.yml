@@ -11,18 +11,20 @@ script:
 
     export step=0;
     export totalSteps=6;
+    eport stepName;
 
     stepInit () {
       step=$((step + 1));
+      stepName=$1;
       echo -e "\n\n\n\n\033[1m\e[33m ----- PASO $step DE $totalSteps INICIADO - $1 ----- \n";
     };
 
     stepFinish () {
       if [[ "$1" = "1" ]]
-        then echo -e "\n\033[1m\e[31m ----- PASO $step DE $totalSteps FALLIDO - $2 ----- \n\n\n\n";
+        then echo -e "\n\033[1m\e[31m ----- PASO $step DE $totalSteps FALLIDO - $stepName ----- \n\n\n\n";
         exit 1;
       fi;
-      echo -e "\n\033[1m\e[32m ----- PASO $step DE $totalSteps EXITOSO - $2 ----- \n\n\n\n";
+      echo -e "\n\033[1m\e[32m ----- PASO $step DE $totalSteps EXITOSO - $stepName ----- \n\n\n\n";
     };
 
 
@@ -35,14 +37,14 @@ script:
     echo "$DOCKER_PASSWORD" | docker login -u $ORGANIZATION --password-stdin;
     docker pull $ORGANIZATION/payroll-server:latest
 
-    stepFinish $? "DESPLIEGUE A DOCKERHUB";
+    stepFinish $?;
 
 
 
 
   - > # DESPLIEGUE A HEROKU REGISTRY
 
-    stepInit;
+    stepInit "DESPLIEGUE A HEROKU REGISTRY";
 
     echo "$HEROKU_API_KEY" | docker login -u_ --password-stdin registry.heroku.com;
     docker tag $ORGANIZATION/payroll-server:latest registry.heroku.com/$HEROKU_APP_PRODUCTION/web;
@@ -55,7 +57,7 @@ script:
 
   - > # RELEASE DE HEROKU APP PRODUCTION
 
-    stepInit;
+    stepInit "RELEASE DE HEROKU APP PRODUCTION";
 
     heroku container:release web --app=$HEROKU_APP_PRODUCTION; 
 
