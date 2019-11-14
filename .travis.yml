@@ -33,11 +33,11 @@ script:
     };
 
     stepFinish () {
-      if [[ "$1" = "1" ]]
+      if [[ "$?" = "1" ]]
         then printStepFormat FALLIDO;
         exit 1;
       fi;
-      printStepFormat EXITOSO
+      printStepFormat EXITOSO;
     };
 
 
@@ -50,7 +50,7 @@ script:
     echo "$DOCKER_PASSWORD" | docker login -u $ORGANIZATION --password-stdin;
     docker pull $ORGANIZATION/payroll-server:latest
 
-    stepFinish $?;
+    stepFinish;
 
 
 
@@ -63,7 +63,7 @@ script:
     docker tag $ORGANIZATION/payroll-server:latest registry.heroku.com/$HEROKU_APP_PRODUCTION/web;
     docker push registry.heroku.com/$HEROKU_APP_PRODUCTION/web;
 
-    stepFinish $?;
+    stepFinish;
 
 
 
@@ -74,6 +74,6 @@ script:
 
     heroku container:release web --app=$HEROKU_APP_PRODUCTION; 
 
-    stepFinish $?;
+    stepFinish;
 
 
