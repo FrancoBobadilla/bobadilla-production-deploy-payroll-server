@@ -9,24 +9,24 @@ script:
 
   - > # DESCARGA DE IMAGEN DE DOCKERHUB
 
-    echo -e "\n\n\n\n\e[33mCOMENZANDO DESCARGA DE IMAGEN DE DOCKERHUB\n";
+    echo -e "\n\n\n\n\e[33m-----COMENZANDO DESCARGA DE IMAGEN DE DOCKERHUB-----\n";
 
     echo "$DOCKER_PASSWORD" | docker login -u $ORGANIZATION --password-stdin;
     docker pull $ORGANIZATION/payroll-server:latest
 
     look_exit=$?;
     if [[ "$look_exit" = "1" ]]
-      then echo -e "\n\e[31mDESCARGA DE IMAGEN DE DOCKERHUB FALLIDA\n\n\n\n"
+      then echo -e "\n\e[31m-----DESCARGA DE IMAGEN DE DOCKERHUB FALLIDA-----\n\n\n\n"
       exit 1
     fi;
-    echo -e "\n\e[32mDESCARGA DE IMAGEN DE DOCKERHUB EXITOSA\n\n\n\n";
+    echo -e "\n\e[32m-----DESCARGA DE IMAGEN DE DOCKERHUB EXITOSA-----\n\n\n\n";
 
 
 
 
   - > # DESPLIEGUE A HEROKU REGISTRY
 
-    echo -e "\n\n\n\n\e[33mCOMENZANDO DESPLIEGUE A HEROKU REGISTRY\n";
+    echo -e "\n\n\n\n\e[33m-----COMENZANDO DESPLIEGUE A HEROKU REGISTRY-----\n";
 
     echo "$HEROKU_API_KEY" | docker login -u_ --password-stdin registry.heroku.com;
     docker tag $ORGANIZATION/payroll-server:latest registry.heroku.com/$HEROKU_APP_PRODUCTION/web;
@@ -34,25 +34,25 @@ script:
 
     look_exit=$?;
     if [[ "$look_exit" = "1" ]]
-      then echo -e "\n\e[31mDESPLIEGUE A HEROKU REGISTRY FALLIDO\n\n\n\n"
+      then echo -e "\n\e[31m-----DESPLIEGUE A HEROKU REGISTRY FALLIDO-----\n\n\n\n"
       exit 1
     fi;
-    echo -e "\n\e[32mDESPLIEGUE A HEROKU REGISTRY EXITOSO\n\n\n\n";
+    echo -e "\n\e[32m-----DESPLIEGUE A HEROKU REGISTRY EXITOSO-----\n\n\n\n";
 
 
 
 
   - > # RELEASE DE HEROKU APP PRODUCTION
 
-    echo -e "\n\n\n\n\e[33mCOMENZANDO RELEASE DE HEROKU APP PRODUCTION\n";
+    echo -e "\n\n\n\n\e[33m-----COMENZANDO RELEASE DE HEROKU APP PRODUCTION-----\n";
 
     heroku container:release web --app=$HEROKU_APP_PRODUCTION; 
 
     look_exit=$?;
     if [[ "$look_exit" = "1" ]]
-      then echo -e "\n\e[31mRELEASE DE HEROKU APP PRODUCTION FALLIDO\n\n\n\n"
+      then echo -e "\n\e[31m-----RELEASE DE HEROKU APP PRODUCTION FALLIDO-----\n\n\n\n"
       exit 1
     fi;
-    echo -e "\n\e[32mRELEASE DE HEROKU APP PRODUCTION EXITOSO\n\n\n\n";
+    echo -e "\n\e[32m-----RELEASE DE HEROKU APP PRODUCTION EXITOSO-----\n\n\n\n";
 
 
