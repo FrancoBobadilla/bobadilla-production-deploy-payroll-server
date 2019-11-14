@@ -11,7 +11,6 @@ script:
 
     export step=0;
     export totalSteps=6;
-    eport stepName;
 
     printStepFormat () {
       case "$1" in
@@ -60,7 +59,7 @@ script:
 
     stepInit "DESPLIEGUE A HEROKU REGISTRY";
 
-    echo "$HEROKU_API_KEY" | docker login -u_ --password-stdin registry.heroku.com;
+    echo "HEROKU_API_KEY" | docker login -u_ --password-stdin registry.heroku.com;
     docker tag $ORGANIZATION/payroll-server:latest registry.heroku.com/$HEROKU_APP_PRODUCTION/web;
     docker push registry.heroku.com/$HEROKU_APP_PRODUCTION/web;
 
