@@ -13,18 +13,32 @@ script:
     export totalSteps=6;
     eport stepName;
 
+    printStepFormat () {
+      case "$1" in
+      "INICIADO")
+        echo -e "\n\n\n\n\033[1m\e[33m ----- PASO $step $1 - $stepName ----- \n"
+        ;;
+      "FALLIDO")
+        echo -e "\n\033[1m\e[31m ----- PASO $step $1 - $stepName ----- \n\n\n\n"
+        ;;
+      "EXITOSO")
+        echo -e "\n\033[1m\e[32m ----- PASO $step $1 - $stepName ----- \n\n\n\n"
+        ;;
+      esac
+    };
+
     stepInit () {
       step=$((step + 1));
       stepName=$1;
-      echo -e "\n\n\n\n\033[1m\e[33m ----- PASO $step DE $totalSteps INICIADO - $1 ----- \n";
+      printStepFormat INICIADO;
     };
 
     stepFinish () {
       if [[ "$1" = "1" ]]
-        then echo -e "\n\033[1m\e[31m ----- PASO $step DE $totalSteps FALLIDO - $stepName ----- \n\n\n\n";
+        then printStepFormat FALLIDO;
         exit 1;
       fi;
-      echo -e "\n\033[1m\e[32m ----- PASO $step DE $totalSteps EXITOSO - $stepName ----- \n\n\n\n";
+      printStepFormat EXITOSO
     };
 
 
