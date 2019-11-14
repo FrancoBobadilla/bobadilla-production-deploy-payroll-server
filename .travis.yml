@@ -9,10 +9,24 @@ script:
 
   - > # DEFINICION DE VARIABLES Y FUNCIONES DE CONTROL
 
-    export step=0;
-    export totalSteps=6;
+    step=0;
 
-    printStepFormat () {
+    stepInit () {
+      step=$((step + 1));
+      stepName=$1;
+      stepPrint INICIADO;
+    };
+
+    stepFinish () {
+      if [[ "$?" = "1" ]]
+        then stepPrint FALLIDO;
+        sleep 2;
+        exit 1;
+      fi;
+      stepPrint EXITOSO;
+    };
+
+    stepPrint () {
       case "$1" in
       "INICIADO")
         echo -e "\n\n\n\n\033[1m\e[33m ----- PASO $step $1 - $stepName ----- \n"
@@ -24,21 +38,6 @@ script:
         echo -e "\n\033[1m\e[32m ----- PASO $step $1 - $stepName ----- \n\n\n\n"
         ;;
       esac
-    };
-
-    stepInit () {
-      step=$((step + 1));
-      stepName=$1;
-      printStepFormat INICIADO;
-    };
-
-    stepFinish () {
-      if [[ "$?" = "1" ]]
-        then printStepFormat FALLIDO;
-        sleep 2;
-        exit 1;
-      fi;
-      printStepFormat EXITOSO;
     };
 
 
@@ -60,7 +59,7 @@ script:
 
     stepInit "DESPLIEGUE A HEROKU REGISTRY";
 
-    echo "HEROKU_API_KEY" | docker login -u_ --password-stdin registry.heroku.com;
+    echo "$HEROKU_API_KEY" | docker login -u_ --password-stdin registry.heroku.com;
     docker tag $ORGANIZATION/payroll-server:latest registry.heroku.com/$HEROKU_APP_PRODUCTION/web;
     docker push registry.heroku.com/$HEROKU_APP_PRODUCTION/web;
 
