@@ -9,17 +9,17 @@ script:
 
   - > # DESCARGA DE IMAGEN DE DOCKERHUB
 
-    echo -e "\n\n\n\n\e[33m ----- COMENZANDO DESCARGA DE IMAGEN DE DOCKERHUB ----- \n";
+    echo -e "\n\n\n\n\033[1m\e[33m ----- COMENZANDO DESCARGA DE IMAGEN DE DOCKERHUB ----- \n";
 
-    echo "$DOCKER_PASSWORD" | docker login -u $ORGANIZATION --password-stdin;
+    echo "DOCKER_PASSWORD" | docker login -u $ORGANIZATION --password-stdin;
     docker pull $ORGANIZATION/payroll-server:latest
 
     look_exit=$?;
     if [[ "$look_exit" = "1" ]]
-      then echo -e "\n\e[31m ----- DESCARGA DE IMAGEN DE DOCKERHUB FALLIDA ----- \n\n\n\n"
+      then echo -e "\n\033[1m\e[31m ----- DESCARGA DE IMAGEN DE DOCKERHUB FALLIDA ----- \n\n\n\n"
       exit 1
     fi;
-    echo -e "\n\e[32m ----- DESCARGA DE IMAGEN DE DOCKERHUB EXITOSA ----- \n\n\n\n";
+    echo -e "\n\033[1m\e[32m ----- DESCARGA DE IMAGEN DE DOCKERHUB EXITOSA ----- \n\n\n\n";
 
 
 
