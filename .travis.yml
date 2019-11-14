@@ -22,7 +22,7 @@ script:
         then echo -e "\n\033[1m\e[31m ----- PASO $step DE $totalSteps FALLIDO - $2 ----- \n\n\n\n";
         exit 1;
       fi;
-      then echo -e "\n\033[1m\e[32m ----- PASO $step DE $totalSteps EXITOSO - $2 ----- \n\n\n\n";
+      echo -e "\n\033[1m\e[32m ----- PASO $step DE $totalSteps EXITOSO - $2 ----- \n\n\n\n";
     };
 
 
